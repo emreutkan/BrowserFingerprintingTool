@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <h1>Browser Vulnerability Checker</h1>
+    <section>
+      <h1>Browser Vulnerability Checker</h1>
+
+      <button id="theme-toggle" @click="toggleTheme">Switch Theme</button>
+
+    </section>
 
     <!-- Network Information Section -->
     <section class="info-section network-info">
@@ -114,6 +119,7 @@
       <p><strong>Actual Resolution Details:</strong> {{ actualResolution }}</p>
       <p><strong>Accessible Cookies List:</strong> {{ cookiesList }}</p>
     </section>
+
   </div>
 </template>
 
@@ -793,125 +799,182 @@ onMounted(() => {
   detectSpeechSynthesis();
   detectPlatformAnomaly();
 });
+
+const isGreenBlack = ref(false);
+
+function toggleTheme() {
+  isGreenBlack.value = !isGreenBlack.value;
+
+  if (isGreenBlack.value) {
+    document.body.classList.add("green-black");
+    document.getElementById("theme-toggle").textContent = "Switch Theme";
+  } else {
+    document.body.classList.remove("green-black");
+    document.getElementById("theme-toggle").textContent = "Switch Theme";
+  }
+}
+
+onMounted(() => {
+  document.body.classList.remove("green-black");
+});
 </script>
 
-<style scoped>
-/* General Styles */
-body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  color: #333;
-  background-color: #f9f9f9;
+<style>
+/* General Reset for Full-Screen View */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Full viewport coverage */
+  background-color: #121212; /* Dark gray for reduced eye strain */
+  color: #dcdcdc; /* Light gray for better readability */
+  font-family: "Consolas", "Lucida Console", monospace;
+  overflow: hidden; /* Prevent body scroll */
 }
 
+/* Header Styling */
 h1 {
-  color: #2c3e50;
+  margin: 0;
+  padding: 15px 0;
+  font-size: 2em;
   text-align: center;
-  margin-bottom: 40px;
+  color: #00bcd4; /* Teal for a modern accent */
+  background-color: #1e1e1e; /* Slightly lighter gray for contrast */
+  border-bottom: 1px solid #00bcd4;
 }
 
-h2 {
-  color: #34495e;
-  border-bottom: 2px solid #ecf0f1;
-  padding-bottom: 10px;
-  margin-top: 30px;
-  margin-bottom: 15px;
+/* Main Grid Container */
+#app {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+  grid-auto-rows: minmax(200px, auto); /* Flexible row heights */
+  gap: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  height: calc(100vh - 65px); /* Adjusted to account for header height */
+  overflow-y: auto; /* Allow vertical scroll if content overflows */
 }
 
+/* Section Container */
 .info-section {
-  background-color: #000000;
-  border: 1px solid #ecf0f1;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #1e1e1e; /* Darker section background for clear distinction */
+  border: 1px solid #00bcd4; /* Teal borders for clean, modern feel */
+  padding: 8px;
+  font-size: 13px; /* Readable text size */
+  overflow: auto; /* Internal scroll for long content */
+  scrollbar-width: thin;
+  scrollbar-color: #00bcd4 #121212; /* Teal thumb, dark track */
 }
 
-/* Specific Section Styles */
-
-/* Network Information */
-.network-info {
-  border-left: 5px solid #3498db;
+/* WebKit Scrollbar Styling (Chrome, Safari, Edge) */
+.info-section::-webkit-scrollbar {
+  width: 8px;
 }
 
-/* Browser Information */
-.browser-info {
-  border-left: 5px solid #9b59b6;
+.info-section::-webkit-scrollbar-track {
+  background: #121212; /* Dark scrollbar track */
 }
 
-/* Privacy and Security Checks */
-.privacy-security {
-  border-left: 5px solid #e74c3c;
+.info-section::-webkit-scrollbar-thumb {
+  background: #00bcd4; /* Teal scrollbar thumb */
 }
 
-/* Fingerprinting Techniques */
-.fingerprinting {
-  border-left: 5px solid #f1c40f;
+/* Section Titles */
+.info-section h2 {
+  font-size: 14px;
+  margin: 0 0 8px 0; /* Space below title */
+  padding-bottom: 5px;
+  color: #00bcd4; /* Teal headings for emphasis */
+  border-bottom: 1px solid #00bcd4;
 }
 
-/* System Information */
-.system-info {
-  border-left: 5px solid #1abc9c;
-}
-
-/* API Support and Detection */
-.api-support {
-  border-left: 5px solid #e67e22;
-}
-
-/* Clipboard Access and Monitoring */
-.clipboard-monitoring {
-  border-left: 5px solid #2ecc71;
-}
-
-/* User Behavior Detection */
-.user-behavior {
-  border-left: 5px solid #16a085;
-}
-
-/* Miscellaneous Information */
-.miscellaneous {
-  border-left: 5px solid #d35400;
-}
-
-/* Error Handling and Edge Cases */
-.error-handling {
-  border-left: 5px solid #c0392b;
-}
-
-/* Paragraph Styles */
+/* Paragraph Styling */
 p {
-  font-size: 16px;
-  margin: 8px 0;
-  line-height: 1.5;
+  margin: 4px 0; /* Compact spacing for readability */
+  line-height: 1.3; /* Increased line height for better spacing */
+  word-wrap: break-word; /* Prevents text overflow */
+  color: #dcdcdc; /* Light gray text for better readability */
 }
 
+/* Bold Highlights */
 strong {
-  font-weight: bold;
-  color: #2c3e50;
+  color: #ffffff; /* White for strong emphasis */
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .info-section {
-    padding: 15px;
+/* Responsive Behavior */
+@media (max-width: 600px) {
+  #app {
+    grid-template-columns: 1fr; /* Single column layout for smaller screens */
   }
 
   h1 {
-    font-size: 24px;
+    font-size: 1.5em; /* Smaller title on small screens */
   }
 
-  h2 {
-    font-size: 20px;
-  }
-
-  p {
-    font-size: 14px;
+  .info-section {
+    font-size: 12px; /* Adjust text size for small screens */
   }
 }
+.theme-toggle-container {
+  display: flex;
+  justify-content: center; /* Center the button horizontally */
+  margin: 10px 0; /* Space below the title */
+}
 
-/* Accessible Focus Styles */
-.info-section:focus-within {
-  outline: 2px dashed #2980b9;
+#theme-toggle {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-family: "Consolas", "Lucida Console", monospace;
+  color: #ffffff;
+  background-color: #000000;
+  //border: 1px solid #555555;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#theme-toggle:hover {
+  background-color: #333333;
+}
+/* Green-Black Theme */
+body.green-black {
+  background-color: #000000;
+  color: #00ff00; /* Global text color */
+}
+
+body.green-black h1 {
+  color: #00ff00;
+  background-color: #001a00;
+  border-bottom: 1px solid #00ff00;
+}
+
+body.green-black .info-section {
+  background-color: #001a00;
+  border: 1px solid #00ff00;
+  color: #00ff00; /* Ensure all text inside inherits green */
+}
+
+body.green-black .info-section h2 {
+  color: #00ff00;
+  border-bottom: 1px solid #00ff00;
+}
+
+body.green-black .info-section p,
+body.green-black .info-section strong,
+body.green-black .info-section a,
+body.green-black .info-section span {
+  color: #00ff00; /* Explicitly apply green to all child elements */
+}
+
+body.green-black .info-section::-webkit-scrollbar-thumb {
+  background: #00ff00; /* Green scrollbar thumb */
+}
+
+body.green-black .info-section::-webkit-scrollbar-track {
+  background: #000000; /* Match background color */
+}
+
+body.green-black a {
+  color: #00ff00;
+  text-decoration: underline; /* Ensure links look consistent */
 }
 </style>

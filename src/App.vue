@@ -121,6 +121,11 @@
       <p><strong>Accessible Cookies List:</strong> {{ cookiesList }}</p>
     </section>
 
+    <section class="DownloadInformation">
+      <h2>Download Information</h2>
+      <button @click="downloadState">Download Latest State</button>
+    </section>
+
   </div>
 </template>
 
@@ -743,6 +748,77 @@ function detectSpoofedResolution() {
 
   actualResolution.value = `Reported: ${reportedWidth}x${reportedHeight}, Actual: ${innerWidth}x${innerHeight}`;
 }
+function downloadState() {
+  // Create a content string with all the variable states
+  const data = `
+  IP Address: ${ip.value}
+  ISP: ${isp.value}
+  DNS Server: ${dnsServer.value}
+  Network Speed: ${networkSpeed.value}
+  SSL/TLS Version: ${sslStatus.value}
+  Proxy Detection: ${proxyDetection.value}
+
+  Browser Information:
+  Browser Info: ${browser}
+  User Agent Spoofing: ${userAgentSpoof.value}
+  Browser Plugins: ${pluginsList.value}
+  Browser Languages: ${browserLanguages.value}
+  Web Workers Support: ${webWorkerSupport.value}
+
+  Privacy and Security Checks:
+  Cookies Enabled: ${cookiesEnabled.value}
+  Local Storage Enabled: ${localStorageEnabled.value}
+  Adblocker Detection: ${adblockerDetected.value}
+  CSP Status: ${cspStatus.value}
+  HSTS: ${hsts.value}
+  Referrer Policy: ${referrerPolicy.value}
+  Do Not Track: ${doNotTrack.value}
+
+  Fingerprinting Techniques:
+  GPU Fingerprint: ${gpuFingerprint.value}
+  Font Fingerprint: ${fontFingerprint.value}
+  Shader Precision: ${shaderPrecision.value}
+  Audio Fingerprint: ${audioFingerprint.value}
+  Canvas Fingerprint: ${canvasFingerprint.value}
+
+  System Information:
+  CPU Usage: ${cpuUsage.value}
+  CPU Cores: ${cpuCores.value}
+  Device Memory: ${deviceMemory.value}
+  Battery Status: ${batteryStatus.value}
+  Sensor Access: ${sensorAccess.value}
+
+  API Support and Detection:
+  WebRTC Public IP Leak: ${webrtcPublicIP.value}
+  WebRTC Local IP Leak: ${webrtcLocalIP.value}
+  WebSocket Leak: ${websocketLeak.value}
+  Battery API: ${batteryAPI.value}
+  Speech Recognition API: ${speechAPI.value}
+  Audio Worklet Support: ${audioWorkletSupport.value}
+
+  Clipboard Monitoring:
+  Clipboard Access: ${clipboardAccess.value}
+  Previous Clipboard Content: ${previousClipboard.value}
+  Clipboard Test Result: ${clipboardTest.value}
+
+  Miscellaneous Information:
+  Resolution: ${resolution}
+  Local Time: ${localTime.value}
+  Timezone: ${timezoneName.value}
+  Screen Orientation: ${screenOrientation.value}
+  Pixel Ratio: ${pixelRatio.value}
+  JavaScript Execution Time: ${jsExecutionTime.value}
+  `;
+
+  // Create a Blob and trigger a download
+  const blob = new Blob([data], { type: "text/plain" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "system_info.txt";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
 
 onMounted(() => {
   fetchIP();
@@ -826,12 +902,13 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%; /* Full viewport coverage */
+  width: 100%; /* Full width of the viewport */
   background-color: #121212; /* Dark gray for reduced eye strain */
   color: #dcdcdc; /* Light gray for better readability */
   font-family: "Consolas", "Lucida Console", monospace;
   overflow: hidden; /* Prevent body scroll */
+  box-sizing: border-box;
 }
-
 /* Header Styling */
 h1 {
   margin: 0;

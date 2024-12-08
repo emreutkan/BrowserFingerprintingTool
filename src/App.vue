@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <section>
-      <h1>Browser Vulnerability Checker</h1>
+      <p>68 74 74 70 73 3a 2f 2f 67 69 74 68 75 62 2e 63 6f 6d 2f 65 6d 72 65 75 74 6b 61 6e 2f 42 72 6f 77 73 65 72 46 69 6e 67 65 72 70 72 69 6e 74 69 6e 67 54 6f 6f 6c</p>
 
       <button id="theme-toggle" @click="toggleTheme">Switch Theme</button>
 
@@ -47,11 +47,11 @@
     <!-- Fingerprinting Techniques Section -->
     <section class="info-section fingerprinting">
       <h2>Fingerprinting Techniques</h2>
-      <p><strong>Canvas Fingerprint:</strong> {{ canvasFingerprint }}</p>
-      <p><strong>Audio Fingerprint:</strong> {{ audioFingerprint }}</p>
-      <p><strong>Font Fingerprint:</strong> {{ fontFingerprint }}</p>
       <p><strong>GPU Fingerprint:</strong> {{ gpuFingerprint }}</p>
+      <p><strong>Font Fingerprint:</strong> {{ fontFingerprint }}</p>
       <p><strong>Shader Precision:</strong> {{ shaderPrecision }}</p>
+      <p><strong>Audio Fingerprint:</strong> {{ audioFingerprint }}</p>
+      <p><strong>Canvas Fingerprint:</strong> {{ canvasFingerprint }}</p>
     </section>
 
     <!-- System Information Section -->
@@ -88,6 +88,7 @@
       <p v-if="clipboardMonitoring.includes('Change')">
         <strong>Current Clipboard Content:</strong> {{ currentClipboardContent }}
       </p>
+      <p><strong>referrer URL: </strong>{{referrerURL}}</p>
     </section>
 
     <!-- User Behavior Detection Section -->
@@ -914,11 +915,7 @@ strong {
     font-size: 12px; /* Adjust text size for small screens */
   }
 }
-.theme-toggle-container {
-  display: flex;
-  justify-content: center; /* Center the button horizontally */
-  margin: 10px 0; /* Space below the title */
-}
+
 
 #theme-toggle {
   padding: 8px 16px;
@@ -926,7 +923,6 @@ strong {
   font-family: "Consolas", "Lucida Console", monospace;
   color: #ffffff;
   background-color: #000000;
-  //border: 1px solid #555555;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
@@ -934,11 +930,6 @@ strong {
 
 #theme-toggle:hover {
   background-color: #333333;
-}
-/* Green-Black Theme */
-body.green-black {
-  background-color: #000000;
-  color: #00ff00; /* Global text color */
 }
 
 body.green-black h1 {
